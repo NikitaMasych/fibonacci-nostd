@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wasm Test</title>
+</head>
+<body>
+<h1>Testing Rust + Wasm</h1>
+<script type="module">
+    import init, { run_factorial } from './pkg/factorial_nostd.js';
+
+    async function runWasm() {
+        await init();
+        run_factorial();
+    }
+
+    runWasm().catch(console.error);
+</script>
+</body>
+</html>

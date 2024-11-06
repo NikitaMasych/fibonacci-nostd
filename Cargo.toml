@@ -1,0 +1,14 @@
+[package]
+name = "factorial-nostd"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+anyhow = "1.0.92"
+plonky2 = "0.2.2"
+wasm-bindgen = "0.2.95"
+web-sys = { version = "0.3.72", features = ["console"] }
+console = "0.15.8"
