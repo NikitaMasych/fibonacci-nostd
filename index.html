@@ -7,15 +7,65 @@
 </head>
 <body>
 <h1>Testing Rust + Wasm</h1>
+
+<label for="proofFile">Select Proof File:</label>
+<input type="file" id="proofFile" accept=".bin,.dat" /><br/><br/>
+
+<label for="verifierFile">Select Verifier File:</label>
+<input type="file" id="verifierFile" accept=".bin,.dat" /><br/><br/>
+
+<button id="verifyButton">Verify Proof</button>
+
+<p id="status"></p>
+
 <script type="module">
-    import init, { run_factorial } from './pkg/factorial_nostd.js';
+    import init, { verify_proof } from './pkg/factorial_nostd.js';
 
-    async function runWasm() {
-        await init();
-        run_factorial();
-    }
+    // Ensure the script runs after the content is fully loaded
+    document.addEventListener("DOMContentLoaded", () => {
+        // Initialize the WASM module
+        init().then(() => {
+            console.log("WASM module initialized");
 
-    runWasm().catch(console.error);
+            // Add click event listener to the button
+            document.getElementById("verifyButton").addEventListener("click", async () => {
+                const statusElem = document.getElementById('status');
+
+                // Select the file input elements
+                const proofFileInput = document.getElementById('proofFile');
+                const verifierFileInput = document.getElementById('verifierFile');
+
+                // Check if both files are selected
+                if (!proofFileInput.files[0] || !verifierFileInput.files[0]) {
+                    statusElem.textContent = "Please select both proof and verifier files.";
+                    return;
+                }
+
+                // Helper function to read a file as ArrayBuffer
+                const readFileAsBytes = (file) => {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(new Uint8Array(reader.result));
+                        reader.onerror = () => reject(reader.error);
+                        reader.readAsArrayBuffer(file);
+                    });
+                };
+
+                try {
+                    // Read both files as byte arrays
+                    const proofBytes = await readFileAsBytes(proofFileInput.files[0]);
+                    const verifierBytes = await readFileAsBytes(verifierFileInput.files[0]);
+
+                    // Call the WASM function to verify the proof
+                    await verify_proof(proofBytes, verifierBytes);
+                    statusElem.textContent = "Proof verified successfully!";
+                } catch (error) {
+                    console.error("Verification failed:", error);
+                    statusElem.textContent = "Verification failed: " + error.message;
+                }
+            });
+        }).catch(console.error);
+    });
 </script>
 </body>
 </html>
