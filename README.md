@@ -1,4 +1,4 @@
-# Plonky2 Factorial no-std | WASM
+# Plonky2 Fibonacci no-std | WASM
 
 This repository demonstrates that plonky2 proof verification works in wasm.
 
@@ -16,10 +16,10 @@ npx http-server . -o
 
 You can see how `proof_with_public_inputs.bin` and `verifier_data.bin` are composed in `src/bin`
 
-Launch this command to end-to-end circuit launch; output the needed data in files:
+Launch this command to trigger circuit end-to-end; output the needed data in files:
 
 ```bash
-cargo run --bin factorial
+cargo run --bin fibonacci
 ```
 
 Launch this command to see how verification only happens using deserialized info.
@@ -37,6 +37,6 @@ it was discovered that failure happens on this step:
 let data = builder.build::<C>();
 ```
 
-[Check out the exact line](https://github.com/NikitaMasych/factorial-nostd/blob/main/src/bin/factorial.rs#L44)
+[Check out the exact line](https://github.com/NikitaMasych/fibonacci-nostd/blob/main/src/bin/fibonacci.rs#L44)
 
 So, even though verification part works in wasm, plonky2 in its completion may not be supported.

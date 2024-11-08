@@ -1,6 +1,5 @@
 #![cfg_attr(target_arch = "wasm32", no_std)]
 
-#[macro_use]
 extern crate alloc;
 
 use anyhow::Result;
@@ -14,10 +13,7 @@ use web_sys::console;
 use alloc::vec::Vec;
 
 #[wasm_bindgen]
-pub fn verify_proof(
-    proof_bytes: &[u8],
-    verifier_data_bytes: &[u8]
-) -> Result<(), JsValue> {
+pub fn verify_proof(proof_bytes: &[u8], verifier_data_bytes: &[u8]) -> Result<(), JsValue> {
     console::log_1(&"Starting proof verification".into());
 
     const D: usize = 2;
@@ -25,15 +21,21 @@ pub fn verify_proof(
     type F = <C as GenericConfig<D>>::F;
 
     console::log_1(&"Deserializing verifier data".into());
-    let verifier = VerifierCircuitData::<F, C, D>::from_bytes(Vec::from(verifier_data_bytes), &DefaultGateSerializer)
-        .map_err(|_| JsValue::from_str("Failed to deserialize verifier data"))?;
+    let verifier = VerifierCircuitData::<F, C, D>::from_bytes(
+        Vec::from(verifier_data_bytes),
+        &DefaultGateSerializer,
+    )
+    .map_err(|_| JsValue::from_str("Failed to deserialize verifier data"))?;
 
     console::log_1(&"Deserializing proof data".into());
-    let proof = ProofWithPublicInputs::<F, C, D>::from_bytes(Vec::from(proof_bytes), &verifier.common)
-        .map_err(|_| JsValue::from_str("Failed to deserialize proof data"))?;
+    let proof =
+        ProofWithPublicInputs::<F, C, D>::from_bytes(Vec::from(proof_bytes), &verifier.common)
+            .map_err(|_| JsValue::from_str("Failed to deserialize proof data"))?;
 
     console::log_1(&"Verifying proof".into());
-    verifier.verify(proof).map_err(|_| JsValue::from_str("Verification failed"))?;
+    verifier
+        .verify(proof)
+        .map_err(|_| JsValue::from_str("Verification failed"))?;
 
     console::log_1(&"Proof verified successfully!".into());
     Ok(())

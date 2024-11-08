@@ -1,5 +1,5 @@
 [package]
-name = "factorial-nostd"
+name = "fibonacci-nostd"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,8 +7,8 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [[bin]]
-name = "factorial"
-path = "src/bin/factorial.rs"
+name = "fibonacci"
+path = "src/bin/fibonacci.rs"
 
 [[bin]]
 name = "verify"

@@ -46,7 +46,10 @@ fn main() -> Result<()> {
     let proof = data.prove(pw)?;
 
     let proof_bytes = proof.to_bytes();
-    let verifier_bytes = data.verifier_data().to_bytes(&DefaultGateSerializer).unwrap();
+    let verifier_bytes = data
+        .verifier_data()
+        .to_bytes(&DefaultGateSerializer)
+        .unwrap();
 
     fs::write("proof_with_public_inputs.bin", proof_bytes)?;
     fs::write("verifier_data.bin", verifier_bytes)?;

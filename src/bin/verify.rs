@@ -11,9 +11,12 @@ fn main() {
     let proof_bytes = std::fs::read("proof_with_public_inputs.bin").unwrap();
     let verifier_data_bytes = std::fs::read("verifier_data.bin").unwrap();
 
-    let verifier = VerifierCircuitData::<F, C, D>::from_bytes(verifier_data_bytes, &DefaultGateSerializer).unwrap();
+    let verifier =
+        VerifierCircuitData::<F, C, D>::from_bytes(verifier_data_bytes, &DefaultGateSerializer)
+            .unwrap();
 
-    let proof = ProofWithPublicInputs::<F, C, D>::from_bytes(proof_bytes, &verifier.common).unwrap();
+    let proof =
+        ProofWithPublicInputs::<F, C, D>::from_bytes(proof_bytes, &verifier.common).unwrap();
 
     verifier.verify(proof).unwrap();
 
