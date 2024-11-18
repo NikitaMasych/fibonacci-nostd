@@ -40,3 +40,24 @@ let data = builder.build::<C>();
 [Check out the exact line](https://github.com/NikitaMasych/fibonacci-nostd/blob/main/src/bin/fibonacci.rs#L44)
 
 So, even though verification part works in wasm, plonky2 in its completion may not be supported.
+
+## Benches
+
+You can compare performance of the factorial circuit verification in WASM and native rust.
+
+Environment: `MacBook Pro M2 Max 32 GB 1 TB Storage`
+
+Rust:
+
+```bash
+cargo bench
+```
+
+WASM:
+
+Same steps for executing, you will see timings in browser console.
+
+### Results
+
+Rust: 1.13 ms
+WASM: 13 ms

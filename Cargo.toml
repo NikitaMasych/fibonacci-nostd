@@ -14,10 +14,18 @@ path = "src/bin/fibonacci.rs"
 name = "verify"
 path = "src/bin/verify.rs"
 
+[[bench]]
+name = "verify_factorial"
+harness = false
+
 [dependencies]
 anyhow = "1.0.92"
 plonky2 = "0.2.2"
 wasm-bindgen = "0.2.95"
-web-sys = { version = "0.3.72", features = ["console"] }
-console = "0.15.8"
+web-sys = { version = "0.3.72", features = ["console", "Window", "Performance"] }
 
+[dev-dependencies]
+criterion = { version = "0.5.1", default-features = false }
+
+[profile.bench]
+flat_sampling = true
