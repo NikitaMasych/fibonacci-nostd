@@ -13,13 +13,12 @@ pub(crate) fn benchmark_verification(c: &mut Criterion) {
     let proof_bytes = fs::read("proof_with_public_inputs.bin").unwrap();
     let verifier_data_bytes = fs::read("verifier_data.bin").unwrap();
 
-    let verifier = VerifierCircuitData::<F, C, D>::from_bytes(
-        verifier_data_bytes,
-        &DefaultGateSerializer,
-    )
-        .unwrap();
+    let verifier =
+        VerifierCircuitData::<F, C, D>::from_bytes(verifier_data_bytes, &DefaultGateSerializer)
+            .unwrap();
 
-    let proof = ProofWithPublicInputs::<F, C, D>::from_bytes(proof_bytes, &verifier.common).unwrap();
+    let proof =
+        ProofWithPublicInputs::<F, C, D>::from_bytes(proof_bytes, &verifier.common).unwrap();
 
     c.bench_function("Verifier::verify", |b| {
         b.iter(|| verifier.verify(proof.clone()).unwrap());

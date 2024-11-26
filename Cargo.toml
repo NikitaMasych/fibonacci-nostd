@@ -20,12 +20,9 @@ harness = false
 
 [dependencies]
 anyhow = "1.0.92"
-plonky2 = "0.2.2"
+plonky2 = {git = "https://github.com/distributed-lab/plonky2", branch = "stable"}
 wasm-bindgen = "0.2.95"
 web-sys = { version = "0.3.72", features = ["console", "Window", "Performance"] }
 
 [dev-dependencies]
 criterion = { version = "0.5.1", default-features = false }
-
-[profile.bench]
-flat_sampling = true

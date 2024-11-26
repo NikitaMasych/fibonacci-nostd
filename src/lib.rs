@@ -42,7 +42,7 @@ pub fn verify_proof(proof_bytes: &[u8], verifier_data_bytes: &[u8]) -> Result<()
 
     // Record start time
     let start_time = performance.now();
-    
+
     verifier
         .verify(proof)
         .map_err(|_| JsValue::from_str("Verification failed"))?;
